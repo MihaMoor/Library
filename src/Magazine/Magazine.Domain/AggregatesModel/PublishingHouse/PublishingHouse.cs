@@ -2,6 +2,6 @@
 public class PublishingHouse
 {
     public Guid Id { get; init; }
-    public string Name { get; set; } = null!;
-    public DateTime FoundationYear { get; set; }
+    public string Name { get; init; } = null!;
+    public DateTime FoundationYear { get; init; }
 }
