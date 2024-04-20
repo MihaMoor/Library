@@ -16,9 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Application\Commands\" />
     <Folder Include="Exceptions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Book.Domain\Book.Domain.csproj" />
   </ItemGroup>
 
 </Project>

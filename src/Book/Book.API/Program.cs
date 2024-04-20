@@ -1,3 +1,5 @@
+using Book.API.Controllers;
+
 namespace Book.API;
 
 public class Program
@@ -45,6 +47,8 @@ public class Program
         })
         .WithName("GetWeatherForecast")
         .WithOpenApi();
+
+        app.MapGroup("/api/book").MapBookQueriesApi();
 
         app.Run();
     }
