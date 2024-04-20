@@ -1,4 +1,5 @@
 ﻿namespace Book.Domain.AgregatesModel;
+
 public class Book
 {
     public Guid Id { get; init; }
