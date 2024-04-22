@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  book.api:
+    container_name: book.api
+    image: ${DOCKER_REGISTRY-}bookapi
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: src/Book/Book.API/Dockerfile
+      
+  magazine.api:
+    container_name: magazine.api
+    image: ${DOCKER_REGISTRY-}magazineapi
+    ports:
+      - "8082:8080"
+    build:
+      context: .
+      dockerfile: src/Magazine/Magazine.API/Dockerfile
+
+  user.api:
+    container_name: user.api
+    image: ${DOCKER_REGISTRY-}userapi
+    ports:
+      - "8084:8080"
+    build:
+      context: .
+      dockerfile: src/User/User.API/Dockerfile
+
