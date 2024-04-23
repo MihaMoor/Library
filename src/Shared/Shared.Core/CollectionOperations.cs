@@ -1,6 +1,6 @@
 ﻿namespace Shared.Core;
 
-public class CollectionWorker
+public class CollectionOperations
 {
     public static void Add<T>(ICollection<T> collection, T item) where T : class
     {

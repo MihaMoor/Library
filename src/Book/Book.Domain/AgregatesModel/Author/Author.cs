@@ -20,7 +20,7 @@ public class Author : IEquatable<Author>
     public IEnumerable<PublishingHouse> HouseList => [.. _publishingHouse];
 
     public void AddPublishingHouse(PublishingHouse publishingHouse) 
-        => CollectionWorker.Add(_publishingHouse, publishingHouse);
+        => CollectionOperations.Add(_publishingHouse, publishingHouse);
 
     public bool Equals(Author? author)
         => author != null &&
