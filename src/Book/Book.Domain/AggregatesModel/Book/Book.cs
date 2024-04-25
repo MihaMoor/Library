@@ -1,4 +1,4 @@
-﻿namespace Book.Domain.AgregatesModel;
+﻿namespace Book.Domain.AggregatesModel;
 
 public class Book
 {

@@ -1,6 +1,6 @@
 ﻿using Shared.Core;
 
-namespace Book.Domain.AgregatesModel;
+namespace Book.Domain.AggregatesModel;
 
 public class Author : IEquatable<Author>
 {
@@ -22,16 +22,24 @@ public class Author : IEquatable<Author>
     public void AddPublishingHouse(PublishingHouse publishingHouse) 
         => CollectionOperations.Add(_publishingHouse, publishingHouse);
 
-    public bool Equals(Author? author)
-        => author != null &&
-            Id == author.Id &&
-            Name == author.Name &&
-            Surname == author.Surname &&
-            BirthYear == author.BirthYear;
-
     public override bool Equals(object? obj)
         => Equals(obj as Author);
 
+    public bool Equals(Author? author)
+        => author is not null &&
+           Id == author.Id &&
+           Name == author.Name &&
+           Surname == author.Surname &&
+           BirthYear == author.BirthYear;
+
     public override int GetHashCode()
-        => base.GetHashCode();
+        => HashCode.Combine(Id, Name, Surname, BirthYear);
+
+    // ToDo: подумать как сделать красиво, т.к. точно такой же код есть в PublishingHouse.
+    public static bool operator ==(Author? a, Author? b)
+        => (a is null && b is null) ||
+           (a is not null && a.Equals(b));
+
+    public static bool operator !=(Author? a, Author? b)
+        => !(a == b);
 }

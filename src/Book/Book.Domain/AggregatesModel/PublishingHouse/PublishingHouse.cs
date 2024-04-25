@@ -1,9 +1,8 @@
 ﻿using Shared.Core;
 
-namespace Book.Domain.AgregatesModel;
+namespace Book.Domain.AggregatesModel;
 
 public class PublishingHouse : IEquatable<PublishingHouse?>
-//: IEquatable<PublishingHouse>
 {
     private readonly IList<Author> _authors = [];
 
@@ -25,18 +24,29 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
         => Equals(obj as PublishingHouse);
 
     public bool Equals(PublishingHouse? other)
-        => other is not null &&
-        EqualityComparer<IList<Author>>.Default.Equals(_authors, other._authors) &&
-        Id.Equals(other.Id) &&
-        Name == other.Name &&
-        FoundationYear == other.FoundationYear;
+    {
+        if(other is null) return false;
+
+        var hasMatching = (from author in _authors
+                          from innerAuthor in other.Authors
+                          where author == innerAuthor
+                          select new { }).Any();
+
+        return other is not null &&
+               hasMatching &&
+               Equals(_authors, other._authors) &&
+               Id.Equals(other.Id) &&
+               Name == other.Name &&
+               FoundationYear == other.FoundationYear;
+    }
 
     public override int GetHashCode()
         => HashCode.Combine(_authors, Id, Name, FoundationYear);
 
-    public static bool operator ==(PublishingHouse? left, PublishingHouse? right)
-        => EqualityComparer<PublishingHouse>.Default.Equals(left, right);
+    public static bool operator ==(PublishingHouse? a, PublishingHouse? b)
+        => (a is null && b is null) ||
+           (a is not null && a.Equals(b));
 
-    public static bool operator !=(PublishingHouse? left, PublishingHouse? right)
-        => !(left == right);
+    public static bool operator !=(PublishingHouse? a, PublishingHouse? b)
+        => !(a == b);
 }

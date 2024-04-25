@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Book.Domain", "src\Book\Boo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Book.Infrastructure", "src\Book\Book.Infrastructure\Book.Infrastructure.csproj", "{589885DA-C6E6-40B4-A43F-C1FD459EC86D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Book.API", "src\Book\Book.API\Book.API.csproj", "{82C68D2E-3A3D-4E19-A883-63F4E9D6A0A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Book.API", "src\Book\Book.API\Book.API.csproj", "{82C68D2E-3A3D-4E19-A883-63F4E9D6A0A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.Shell", "src\Client\Client.Shell\Client.Shell.csproj", "{09D6BEBD-BD17-4AB5-B29B-A07597E1EAA9}"
 EndProject
@@ -30,17 +30,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DEB088A0-258F-4355-9931-BF428DE932F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.ServiceDefaults", "src\Shared\Shared.ServiceDefaults\Shared.ServiceDefaults.csproj", "{C7DED5F0-1F0E-45B5-9BE1-1C6EEB523FF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ServiceDefaults", "src\Shared\Shared.ServiceDefaults\Shared.ServiceDefaults.csproj", "{C7DED5F0-1F0E-45B5-9BE1-1C6EEB523FF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{246B4C43-FCF7-4481-8FB5-7157B6B8C1FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.API", "src\User\User.API\User.API.csproj", "{C1EC7074-5953-43F0-B512-C5EEB4D2D583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API", "src\User\User.API\User.API.csproj", "{C1EC7074-5953-43F0-B512-C5EEB4D2D583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Domain", "src\User\User.Domain\User.Domain.csproj", "{6CCC45FE-3E08-43C7-8744-B66B7F895F9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.Domain", "src\User\User.Domain\User.Domain.csproj", "{6CCC45FE-3E08-43C7-8744-B66B7F895F9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.Infrastructure", "src\User\User.Infrastructure\User.Infrastructure.csproj", "{3C8CFD53-126B-4CCD-A636-DFB24E48FDA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.Infrastructure", "src\User\User.Infrastructure\User.Infrastructure.csproj", "{3C8CFD53-126B-4CCD-A636-DFB24E48FDA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Core", "src\Shared\Shared.Core\Shared.Core.csproj", "{2F207937-68BF-47C3-A9B9-C8BF123D5D6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Core", "src\Shared\Shared.Core\Shared.Core.csproj", "{2F207937-68BF-47C3-A9B9-C8BF123D5D6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
