@@ -1,4 +1,4 @@
-﻿using Book.Domain.AgregatesModel;
+﻿using Book.Domain.AggregatesModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Book.API.Application.ViewModels;

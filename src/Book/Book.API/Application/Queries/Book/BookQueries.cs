@@ -6,14 +6,14 @@ namespace Book.API.Application.Queries.Book;
 
 public class BookQueries : IBookQueries
 {
-    private BookContext _context;
+    private readonly BookContext _context;
 
     public BookQueries(BookContext context)
         => _context = context;
 
     public async Task<BookViewModel> GetBookAsync(Guid id)
     {
-        Domain.AgregatesModel.Book? book = await _context.Books.FindAsync(id);
+        Domain.AggregatesModel.Book? book = await _context.Books.FindAsync(id);
 
         return book == null ? throw new KeyNotFoundException(id.ToString()) : book.ToViewModel();
     }

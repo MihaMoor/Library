@@ -4,15 +4,15 @@ namespace Book.API.Extensions;
 
 public static class BookExtensions
 {
-    public static async IAsyncEnumerable<BookViewModel> ToViewModel(this IAsyncEnumerable<Domain.AgregatesModel.Book> books)
+    public static async IAsyncEnumerable<BookViewModel> ToViewModel(this IAsyncEnumerable<Domain.AggregatesModel.Book> books)
     {
-        await foreach (Domain.AgregatesModel.Book book in books)
+        await foreach (Domain.AggregatesModel.Book book in books)
         {
             yield return book.ToViewModel();
         }
     }
 
-    public static BookViewModel ToViewModel(this Domain.AgregatesModel.Book book)
+    public static BookViewModel ToViewModel(this Domain.AggregatesModel.Book book)
         => new(
             book.Id,
             book.Title,

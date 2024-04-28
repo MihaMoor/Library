@@ -18,7 +18,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddDbContextFactory<BookContext>(options =>
+        builder.Services.AddDbContext<BookContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("BookContext"))
         );
 

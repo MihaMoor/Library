@@ -64,6 +64,10 @@
 volumes:
   kafka-volume:
 
+networks:
+  library:
+    driver: bridge
+
 services:
   kafka:
     container_name: kafka
@@ -94,6 +98,8 @@ services:
       # - KAFKA_CFG_MIN_INSYNC_REPLICAS=1 # минимально необходимое количество ISR
     volumes:
       - kafka-volume:/bitnami/kafka
+    networks:
+      - library
       
   kafka-ui:
     container_name: kafka.ui
@@ -112,11 +118,24 @@ services:
     image: ${DOCKER_REGISTRY-}bookapi
     depends_on:
       - kafka
+      - book.db
     ports:
       - "8080:8080"
     build:
       context: .
       dockerfile: src/Book/Book.API/Dockerfile
+    networks:
+      - library
+
+  book.db:
+    container_name: book.db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "bookpassword"
+    ports: 
+      - "5430:5432"
+    networks:
+      - library
       
   magazine.api:
     container_name: magazine.api

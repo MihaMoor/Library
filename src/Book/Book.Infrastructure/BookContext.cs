@@ -4,11 +4,11 @@ namespace Book.Infrastructure;
 
 public class BookContext : DbContext
 {
-    public DbSet<Domain.AgregatesModel.Book> Books { get; set; }
+    public DbSet<Domain.AggregatesModel.Book> Books { get; set; }
+    public DbSet<Domain.AggregatesModel.Author> Authors { get; set; }
+    public DbSet<Domain.AggregatesModel.PublishingHouse> PublishingHouses { get; set; }
 
-    public BookContext(DbContextOptions<BookContext> options) : base(options) { }
-
-    public BookContext()
+    public BookContext(DbContextOptions<BookContext> options) : base(options)
     {
         Database.EnsureDeleted();
         Database.EnsureCreated();
