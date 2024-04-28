@@ -1,0 +1,152 @@
+﻿version: '3.4'
+
+# Код оставлен в качестве отправной точки, в случае перехода к устаревшему варианту развёртыванию инфраструктуры Kafka.
+
+# Полезные ссылки:
+# https://www.baeldung.com/ops/kafka-docker-setup
+# https://github.com/suadev/dotnet-core-microservices-kafka/blob/master/docker-compose.yml
+# https://www.c-sharpcorner.com/article/apache-kafka-without-zookeeper/
+# https://habr.com/ru/companies/otus/articles/670440/
+# https://stackoverflow.com/a/77139980
+
+# services:
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:latest
+  #   ports:
+  #     - 22181:2181
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #     ZOOKEEPER_TICK_TIME: 2000
+
+  # kafka:
+  #   image: confluentinc/cp-kafka:latest
+  #   depends_on:
+  #     - zookeeper
+  #   ports:
+  #     - 9092:9092
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #     KAFKA_LOG_CLEANER_DELETE_RETENTION_MS: 5000
+  #     KAFKA_MIN_INSYNC_REPLICAS: 1
+  
+  # kafka-1:
+  #   image: 'bitnami/kafka:latest'
+  #   environment:
+  #     - KAFKA_ENABLE_KRAFT=yes
+  #     - KAFKA_CFG_PROCESS_ROLES=broker,controller
+  #     - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+  #     - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+  #     - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9094
+  #     - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+  #     - KAFKA_CFG_BROKER_ID=1
+  #     - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9094,2@kafka-2:9094,3@kafka-3:9094
+  #     - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9092
+  #     - ALLOW_PLAINTEXT_LISTENER=yes
+  #     - KAFKA_KRAFT_CLUSTER_ID=r4zt_wrqTRuT7W2NJsB_GA
+  #     - KAFKA_CFG_NODE_ID=1
+  #   ports:
+  #     - 9192:9092
+  
+  # kafdrop:
+  #   image: obsidiandynamics/kafdrop:latest
+  #   depends_on:
+  #     - kafka
+  #   ports:
+  #     - 9000:9000
+  #   environment:
+  #     KAFKA_BROKERCONNECT: kafka:29092
+
+volumes:
+  kafka-volume:
+
+services:
+  kafka:
+    container_name: kafka
+    image: 'bitnami/kafka:latest'
+    ports:
+      - 25092:25092
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:25092,CONTROLLER://:20093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:25092
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:20093
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_KRAFT_CLUSTER_ID=S40B8iVtR0umuTyuM1eLjA
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_LOG_RETENTION_MS=86400000 # данные старше одного дня удаляются
+
+      # Настройки для реплецирования партиций в кластере
+      # https://stackoverflow.com/questions/56888050/what-exactly-does-transaction-state-log-min-isr-mean
+      # https://kafka.apache.org/documentation/#topicconfigs_min.insync.replicas
+      # https://stackoverflow.com/questions/53208811/kafka-what-is-the-minimum-number-of-brokers-required-for-high-availability
+      # - KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      # - KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      # - KAFKA_CFG_DEFAULT_REPLICATION_FACTOR=1
+      # - KAFKA_CFG_MIN_INSYNC_REPLICAS=1 # минимально необходимое количество ISR
+    volumes:
+      - kafka-volume:/bitnami/kafka
+      
+  kafka-ui:
+    container_name: kafka.ui
+    image: provectuslabs/kafka-ui:latest
+    depends_on:
+      - kafka
+    ports:
+      - 9000:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: true
+      KAFKA_CLUSTERS_0_NAME: library-kafka-kraft
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:25092
+
+  book.api:
+    container_name: book.api
+    image: ${DOCKER_REGISTRY-}bookapi
+    depends_on:
+      - kafka
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+      dockerfile: src/Book/Book.API/Dockerfile
+      
+  magazine.api:
+    container_name: magazine.api
+    image: ${DOCKER_REGISTRY-}magazineapi
+    depends_on:
+      - kafka
+    ports:
+      - "8180:8080"
+    build:
+      context: .
+      dockerfile: src/Magazine/Magazine.API/Dockerfile
+
+  user.api:
+    container_name: user.api
+    image: ${DOCKER_REGISTRY-}userapi
+    depends_on:
+      - kafka
+    ports:
+      - "8280:8080"
+    build:
+      context: .
+      dockerfile: src/User/User.API/Dockerfile
+      
+  client.shell:
+    container_name: client.shell
+    image: ${DOCKER_REGISTRY-}clientshell
+    depends_on:
+      - kafka
+    ports:
+      - "8380:8080"
+    build:
+      context: .
+      dockerfile: src/Client/Client.Shell/Dockerfile
