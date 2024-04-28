@@ -21,7 +21,7 @@ namespace Client.Shell.Kafka;
 
 internal static class KafkaUsageExample
 {
-    private const string KafkaServer = "kafka:9092";
+    private const string KafkaServer = "kafka:25092";
     private const string Topic = "test";
 
     internal static async void Run()
