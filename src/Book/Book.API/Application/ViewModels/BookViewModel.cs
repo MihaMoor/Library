@@ -1,7 +1,7 @@
 ﻿using Book.Domain.AgregatesModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Book.API.Application.Queries;
+namespace Book.API.Application.ViewModels;
 
 public record BookViewModel
 (

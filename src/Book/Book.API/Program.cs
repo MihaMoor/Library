@@ -1,4 +1,7 @@
+using Book.API.Application.Queries;
 using Book.API.Controllers;
+using Book.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book.API;
 
@@ -14,6 +17,12 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddDbContextFactory<BookContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("BookContext"))
+        );
+
+        builder.QueryServices();
 
         WebApplication app = builder.Build();
 

@@ -1,7 +1,5 @@
-﻿using Book.API.Application.Queries;
-using Book.API.Extensions;
-using Book.Domain.AgregatesModel;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Book.API.Application.Queries.Book;
+using Book.API.Application.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book.API.Controllers;
@@ -10,16 +8,11 @@ public static class BookControllers
 {
     public static RouteGroupBuilder MapBookQueriesApi(this RouteGroupBuilder app)
     {
-        app.MapGet("/", GetAsync);
+        app.MapGet("/{id:Guid}", GetAsync);
 
         return app;
     }
 
-    public static async IAsyncEnumerable<int> GetAsync(int[] numbers)
-    {
-        foreach (var item in numbers)
-        {
-            yield return await Task.Run(()=> item);
-        }
-    }
+    public static async Task<BookViewModel?> GetAsync(Guid id, [FromServices] IBookQueries queries)
+        => await queries.GetBookAsync(id);
 }

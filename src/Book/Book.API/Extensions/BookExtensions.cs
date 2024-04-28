@@ -1,4 +1,4 @@
-﻿using Book.API.Application.Queries;
+﻿using Book.API.Application.ViewModels;
 
 namespace Book.API.Extensions;
 
