@@ -1,10 +1,7 @@
-﻿namespace Client.Shell
+﻿namespace Client.Shell;
+
+internal class Program
 {
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
+    internal static void Main(string[] _)
+        => Kafka.KafkaUsageExample.Run();
 }
