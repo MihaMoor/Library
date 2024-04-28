@@ -66,6 +66,7 @@ volumes:
 
 services:
   kafka:
+    container_name: kafka
     image: 'bitnami/kafka:latest'
     ports:
       - 9092:9092
@@ -83,6 +84,7 @@ services:
       - KAFKA_CFG_NODE_ID=1
       - KAFKA_LOG_RETENTION_MS=86400000 # данные старше одного дня удаляются
 
+      # Настройки для реплецирования партиций в кластере
       # https://stackoverflow.com/questions/56888050/what-exactly-does-transaction-state-log-min-isr-mean
       # https://kafka.apache.org/documentation/#topicconfigs_min.insync.replicas
       # https://stackoverflow.com/questions/53208811/kafka-what-is-the-minimum-number-of-brokers-required-for-high-availability
@@ -94,6 +96,7 @@ services:
       - kafka-volume:/bitnami/kafka
       
   kafka-ui:
+    container_name: kafka.ui
     image: provectuslabs/kafka-ui:latest
     depends_on:
       - kafka
