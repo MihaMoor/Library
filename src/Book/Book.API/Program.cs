@@ -37,12 +37,12 @@ public class Program
 
         app.UseAuthorization();
 
-        MapGroup(app);
+        MapGroups(app);
 
         app.Run();
     }
 
-    private static void MapGroup(WebApplication app)
+    private static void MapGroups(WebApplication app)
     {
         app.MapGroup("/api/book").MapBookQueriesApi();
     }
