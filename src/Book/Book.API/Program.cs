@@ -18,7 +18,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        builder.Services.AddDbContext<BookContext>(options =>
+        builder.Services.AddDbContextFactory<BookContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("BookContext"))
         );
 
@@ -37,28 +37,13 @@ public class Program
 
         app.UseAuthorization();
 
-        string[] summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-        {
-            WeatherForecast[] forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                {
-                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    TemperatureC = Random.Shared.Next(-20, 55),
-                    Summary = summaries[Random.Shared.Next(summaries.Length)]
-                })
-                .ToArray();
-            return forecast;
-        })
-        .WithName("GetWeatherForecast")
-        .WithOpenApi();
-
-        app.MapGroup("/api/book").MapBookQueriesApi();
+        MapGroup(app);
 
         app.Run();
+    }
+
+    private static void MapGroup(WebApplication app)
+    {
+        app.MapGroup("/api/book").MapBookQueriesApi();
     }
 }
