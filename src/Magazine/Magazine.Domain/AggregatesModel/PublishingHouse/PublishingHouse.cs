@@ -43,25 +43,10 @@ public class PublishingHouse
         => Equals(obj as PublishingHouse);
 
     public bool Equals(PublishingHouse? other)
-    {
-        if (other == null/* || MagazinesRegistry.Count != other.Magazines.Count*/)
-            return false;
-
-        //int intersectCount = Enumerable
-        //    .Intersect(Magazines, other.Magazines)
-        //    .Count();
-
-        // Если есть хотя бы одно совпадение в изданных журналах, издательства считаются равными.
-        bool hasMatch = Magazines.Any(
-            inner => other.Magazines.Any(
-                outer => inner.Id == outer.Id));
-
-        return /*intersectCount == MagazinesRegistry.Count*/
-            hasMatch &&
+        => other != null &&
             Id == other.Id &&
             Name == other.Name &&
             FoundationYear == other.FoundationYear;
-    }
 
     public override int GetHashCode()
         => HashCode.Combine(MagazinesRegistry, Id, Name, FoundationYear);
