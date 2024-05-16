@@ -23,22 +23,21 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
     public override bool Equals(object? obj)
         => Equals(obj as PublishingHouse);
 
-    public bool Equals(PublishingHouse? other)
-    {
-        if(other is null) return false;
+    public bool Equals(PublishingHouse? other) 
+        => other is not null &&
+           Equals(other._authors) &&
+           Id.Equals(other.Id) &&
+           Name == other.Name &&
+           FoundationYear == other.FoundationYear;
 
-        var hasMatching = (from author in _authors
-                          from innerAuthor in other.Authors
-                          where author == innerAuthor
-                          select new { }).Any();
+    public bool Equals(IEnumerable<Author> authors)
+        => GetAuthorMatches(authors).Count() == _authors.Count;
 
-        return other is not null &&
-               hasMatching &&
-               Equals(_authors, other._authors) &&
-               Id.Equals(other.Id) &&
-               Name == other.Name &&
-               FoundationYear == other.FoundationYear;
-    }
+    private IEnumerable<object> GetAuthorMatches(IEnumerable<Author> authors)
+        => from author in _authors
+           from innerAuthor in authors
+           where author == innerAuthor
+           select new { };
 
     public override int GetHashCode()
         => HashCode.Combine(_authors, Id, Name, FoundationYear);
@@ -49,4 +48,10 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
 
     public static bool operator !=(PublishingHouse? a, PublishingHouse? b)
         => !(a == b);
+
+    public static PublishingHouse operator +(PublishingHouse house, Author author)
+    {
+        if (author != null) house.AddAuthor(author);
+        return house;
+    }
 }
