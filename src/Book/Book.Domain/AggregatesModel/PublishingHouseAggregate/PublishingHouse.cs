@@ -12,6 +12,16 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
 
     public DateTime FoundationYear { get; set; }
 
+    public PublishingHouse() { }
+
+    public PublishingHouse(IEnumerable<Author> authors)
+    {
+        foreach (Author author in authors)
+        {
+            _authors.Add(author);
+        }
+    }
+
     /// <summary>
     /// Список авторов, которые публиковались в данном издании.
     /// </summary>
@@ -25,19 +35,10 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
 
     public bool Equals(PublishingHouse? other) 
         => other is not null &&
-           Equals(other._authors) &&
+           _authors.SequenceEqual(other._authors) &&
            Id.Equals(other.Id) &&
            Name == other.Name &&
            FoundationYear == other.FoundationYear;
-
-    public bool Equals(IEnumerable<Author> authors)
-        => GetAuthorMatches(authors).Count() == _authors.Count;
-
-    private IEnumerable<object> GetAuthorMatches(IEnumerable<Author> authors)
-        => from author in _authors
-           from innerAuthor in authors
-           where author == innerAuthor
-           select new { };
 
     public override int GetHashCode()
         => HashCode.Combine(_authors, Id, Name, FoundationYear);
