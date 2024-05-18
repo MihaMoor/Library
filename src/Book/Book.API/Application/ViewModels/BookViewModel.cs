@@ -10,5 +10,5 @@ public record BookViewModel
     string? Description,
     [property: Required] DateTime Year,
     [property: Required] Author Author,
-    [property: Required] PublishingHouse PublishingHouse
+    [property: Required] Guid PublishingHouseId
 );

@@ -1,21 +1,19 @@
 ﻿using Book.API.Application.ViewModels;
 using Book.API.Extensions;
 using Book.Infrastructure;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Book.API.Application.Queries.Book;
 
-public class BookQueries : IBookQueries
+public class BookQueries(BookContext context) : IBookQueries
 {
-    private readonly BookContext _context;
-
-    public BookQueries(BookContext context)
-        => _context = context;
-
-    public async Task<BookViewModel> GetBookAsync(Guid id)
+    public async Task<Results<Ok<BookViewModel>, BadRequest<string>>> GetBookAsync(Guid id)
     {
-        Domain.AggregatesModel.Book? book = await _context.Books.FindAsync(id);
+        Domain.AggregatesModel.Book? book = await context.Books.FindAsync(id);
 
-        return book == null ? throw new KeyNotFoundException(id.ToString()) : book.ToViewModel();
+        return book == null
+            ? TypedResults.BadRequest(id.ToString())
+            : TypedResults.Ok(book.ToViewModel());
     }
 
     public Task<IAsyncEnumerable<BookViewModel>> GetBooksAsync() => throw new NotImplementedException();
