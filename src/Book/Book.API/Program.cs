@@ -1,3 +1,8 @@
+using Book.API.Application.Queries;
+using Book.API.Controllers;
+using Book.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 namespace Book.API;
 
 public class Program
@@ -13,6 +18,12 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddDbContextFactory<BookContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("BookContext"))
+        );
+
+        builder.QueryServices();
+
         WebApplication app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -26,26 +37,13 @@ public class Program
 
         app.UseAuthorization();
 
-        string[] summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-        {
-            WeatherForecast[] forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                {
-                    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    TemperatureC = Random.Shared.Next(-20, 55),
-                    Summary = summaries[Random.Shared.Next(summaries.Length)]
-                })
-                .ToArray();
-            return forecast;
-        })
-        .WithName("GetWeatherForecast")
-        .WithOpenApi();
+        MapGroups(app);
 
         app.Run();
+    }
+
+    private static void MapGroups(WebApplication app)
+    {
+        app.MapGroup("/api/book").MapBookQueriesApi();
     }
 }
