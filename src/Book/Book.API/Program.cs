@@ -1,6 +1,8 @@
 using Book.API.Application.Queries;
 using Book.API.Controllers;
+using Book.Domain.AggregatesModel.BookAggregate;
 using Book.Infrastructure;
+using Book.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.API;
@@ -22,6 +24,7 @@ public class Program
             options.UseNpgsql(builder.Configuration.GetConnectionString("BookContext"))
         );
 
+        builder.Services.AddScoped<IBookRepository, BookRepository>();
         builder.QueryServices();
 
         WebApplication app = builder.Build();
