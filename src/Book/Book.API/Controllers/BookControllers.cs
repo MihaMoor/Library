@@ -16,7 +16,7 @@ public static class BookControllers
 
     public static async Task<Results<Ok<BookViewModel>, NotFound<string>>> GetAsync(Guid id, [FromServices] IBookQueries queries)
     {
-        BookViewModel? book = await queries.GetBookAsync(id);
+        BookViewModel? book = await queries.GetAsync(id);
 
         return book == null
             ? TypedResults.NotFound(id.ToString())

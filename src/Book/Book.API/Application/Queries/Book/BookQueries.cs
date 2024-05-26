@@ -1,17 +1,22 @@
 ﻿using Book.API.Application.ViewModels;
 using Book.API.Extensions;
-using Book.Domain.AggregatesModel.BookAggregate;
+using Book.Infrastructure.Repositories;
 
 namespace Book.API.Application.Queries.Book;
 
-public class BookQueries(IBookRepository repository) : IBookQueries
+public class BookQueries(UnitOfWork unitOfWork) : IBookQueries
 {
-    public async Task<BookViewModel?> GetBookAsync(Guid id)
-        => (await repository.GetAsync(id))?.ToViewModel();
+    public async Task<BookViewModel?> GetAsync(Guid id)
+        => unitOfWork.BookRepository
+        .Get(filter: x => x.Id == id)
+        .ToViewModel();
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetAsync() => throw new NotImplementedException();
+    public IAsyncEnumerable<BookViewModel> GetAsync()
+        => unitOfWork.BookRepository.Get().ToViewModel();
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetByAuthorAsync(Guid authorId) => throw new NotImplementedException();
+    public IAsyncEnumerable<BookViewModel> GetByAuthorAsync(Guid authorId)
+        => unitOfWork.GetByAuthorAsync(authorId).ToViewModel();
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetByPublishingHouseAsync(Guid publishingHouseId) => throw new NotImplementedException();
+    public IAsyncEnumerable<BookViewModel> GetByPublishingHouseAsync(Guid publishingHouseId)
+        => unitOfWork.GetByPublishingHouseAsync(publishingHouseId).ToViewModel();
 }

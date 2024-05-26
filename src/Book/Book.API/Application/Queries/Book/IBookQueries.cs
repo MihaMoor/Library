@@ -5,11 +5,11 @@ namespace Book.API.Application.Queries.Book;
 
 public interface IBookQueries : IQueries
 {
-    Task<BookViewModel?> GetBookAsync(Guid id);
+    Task<BookViewModel?> GetAsync(Guid id);
 
-    Task<IAsyncEnumerable<BookViewModel>> GetAsync();
+    IAsyncEnumerable<BookViewModel> GetAsync();
 
-    Task<IAsyncEnumerable<BookViewModel>> GetByAuthorAsync(Guid authorId);
+    IAsyncEnumerable<BookViewModel> GetByAuthorAsync(Guid authorId);
 
-    Task<IAsyncEnumerable<BookViewModel>> GetByPublishingHouseAsync(Guid publishingHouseId);
+    IAsyncEnumerable<BookViewModel> GetByPublishingHouseAsync(Guid publishingHouseId);
 }
