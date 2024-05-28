@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Book.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book.Infrastructure;
 
-public class BookContext : DbContext
+public class BookContext : DbContext, IUnitOfWork
 {
     public DbSet<Domain.AggregatesModel.Book> Books { get; set; }
     public DbSet<Domain.AggregatesModel.Author> Authors { get; set; }
@@ -18,4 +19,7 @@ public class BookContext : DbContext
     {
         
     }
+
+    public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        => await base.SaveChangesAsync(cancellationToken) > 0;
 }

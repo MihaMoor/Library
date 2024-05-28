@@ -1,6 +1,6 @@
 ﻿namespace Book.Domain.AggregatesModel.BookAggregate;
 
-public interface IBookRepository : IDisposable
+public interface IBookRepository : IRepository<Book>
 {
     IAsyncEnumerable<Book> GetAsync();
     Task<Book?> GetAsync(Guid id);

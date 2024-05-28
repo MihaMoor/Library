@@ -6,13 +6,13 @@ namespace Book.Infrastructure.Repositories;
 public class Repository<T> where T : class
 {
     private static readonly char[] separator = [','];
-    internal BookContext _context;
+    internal BookContext context;
     internal DbSet<T> dbSet;
 
     // Как сказал Эндрю Лок: "Неявные поля изменяют макет". И тут это хорошо видно.
     public Repository(BookContext context)
     {
-        _context = context;
+        this.context = context;
         dbSet = context.Set<T>();
     }
 
@@ -38,7 +38,7 @@ public class Repository<T> where T : class
             : query.AsAsyncEnumerable();
     }
 
-    public virtual T? GetByID(Guid id)
+    public virtual T? Get(Guid id)
         => dbSet.Find(id);
 
     public virtual void Insert(T entity)
@@ -56,7 +56,7 @@ public class Repository<T> where T : class
 
     public virtual void Delete(T entityToDelete)
     {
-        if (_context.Entry(entityToDelete).State == EntityState.Detached)
+        if (context.Entry(entityToDelete).State == EntityState.Detached)
         {
             dbSet.Attach(entityToDelete);
         }
@@ -67,6 +67,6 @@ public class Repository<T> where T : class
     public virtual void Update(T entityToUpdate)
     {
         dbSet.Attach(entityToUpdate);
-        _context.Entry(entityToUpdate).State = EntityState.Modified;
+        context.Entry(entityToUpdate).State = EntityState.Modified;
     }
 }

@@ -2,12 +2,11 @@
 
 namespace Book.Infrastructure.Repositories;
 
-public class UnitOfWork : IDisposable
+public class UnitOfWork(BookContext context) : IDisposable
 {
-    private BookContext _context;
-    private Repository<Domain.AggregatesModel.Book> _bookRepository;
-    private Repository<Author> _authorRepository;
-    private Repository<PublishingHouse> _publishingHouseRepository;
+    private Repository<Domain.AggregatesModel.Book> _bookRepository = null!;
+    private Repository<Author> _authorRepository = null!;
+    private Repository<PublishingHouse> _publishingHouseRepository = null!;
 
     private bool _disposed;
 
@@ -15,7 +14,7 @@ public class UnitOfWork : IDisposable
     {
         get
         {
-            _bookRepository ??= new(_context);
+            _bookRepository ??= new(context);
             return _bookRepository;
         }
     }
@@ -24,7 +23,7 @@ public class UnitOfWork : IDisposable
     {
         get
         {
-            _authorRepository ??= new(_context);
+            _authorRepository ??= new(context);
             return _authorRepository;
         }
     }
@@ -33,16 +32,13 @@ public class UnitOfWork : IDisposable
     {
         get
         {
-            _publishingHouseRepository ??= new(_context);
+            _publishingHouseRepository ??= new(context);
             return _publishingHouseRepository;
         }
     }
 
-    public UnitOfWork(BookContext context)
-        => _context = context;
-
     public void Save()
-        => _context.SaveChanges();
+        => context.SaveChanges();
 
     protected virtual void Dispose(bool disposing)
     {
@@ -50,7 +46,7 @@ public class UnitOfWork : IDisposable
         {
             if (disposing)
             {
-                _context.Dispose();
+                context.Dispose();
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Book.Domain.AggregatesModel;
 
-public class Book
+public class Book : IAggregateRoot
 {
     public Guid Id { get; init; }
     

@@ -1,11 +1,12 @@
-﻿using Book.Domain.AggregatesModel.BookAggregate;
+﻿using Book.Domain;
+using Book.Domain.AggregatesModel.BookAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.Infrastructure.Repositories;
 
-public class BookRepository(BookContext context) : IBookRepository, IDisposable
+public class BookRepository(BookContext context) : IBookRepository
 {
-    private bool _disposed;
+    public IUnitOfWork UnitOfWork => context;
 
     public IAsyncEnumerable<Domain.AggregatesModel.Book> GetAsync()
         => context.Books
@@ -21,7 +22,7 @@ public class BookRepository(BookContext context) : IBookRepository, IDisposable
 
     public async IAsyncEnumerable<Domain.AggregatesModel.Book> GetByAuthorAsync(Guid authorId)
     {
-        // Иначе получается очень большая строка, а из правой части в целом понятно какой тип позвращается.
+        // Иначе получается очень большая строкаа из правой части в целом понятно какой тип позвращается.
 #pragma warning disable IDE0008 // Use explicit type
         var books = context.Books
             .Include(x => x.Author)
@@ -37,7 +38,7 @@ public class BookRepository(BookContext context) : IBookRepository, IDisposable
 
     public async IAsyncEnumerable<Domain.AggregatesModel.Book> GetByPublishingHouseAsync(Guid publishingHouseId)
     {
-        // Иначе получается очень большая строка, а из правой части в целом понятно какой тип позвращается.
+        // Иначе получается очень большая строкаа из правой части в целом понятно какой тип позвращается.
 #pragma warning disable IDE0008 // Use explicit type
         var books = context.Books
             .Include(x => x.Author)
@@ -65,24 +66,5 @@ public class BookRepository(BookContext context) : IBookRepository, IDisposable
     }
 
     public void Save()
-        => context.SaveChanges();
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                context.Dispose();
-            }
-        }
-
-        _disposed = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
+        => context.SaveChangesAsync();
 }
