@@ -3,12 +3,6 @@ name: Telegram Pull Request Notifier
 on:
   pull_request:
     types: [opened, review_requested, closed, edited]
-  pull_request_review_comment:
-    types: [created, edited, deleted]
-  pull_request_review:
-    types: [submitted, edited, dismissed]
-  pull_request_target:
-    types: [opened, edited, closed, reopened, review_requested, review_request_removed]
 
 jobs:
   notification:
