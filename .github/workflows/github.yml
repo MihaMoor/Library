@@ -19,4 +19,4 @@ jobs:
     steps:
       - name: Send Message to Telegram
         shell: pwsh
-        run: ./ci.ps1 -Task ModuleBuild
+        run: ./ci.ps1
