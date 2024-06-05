@@ -8,15 +8,7 @@ jobs:
   notification:
     runs-on: ubuntu-latest
 
-    # steps:
-    #   # Send a telegram message on pr open or review request
-    #   - name: Pull Request Telegram
-    #     uses: F2had/pr-telegram-action@v1.0.0
-    #     with: 
-    #       bot_token: '${{ secrets.PRBOTTOKEN }}' # Your bot token from github secrets
-    #       chat_id: '${{ secrets.PRCHATID }}' # Your chat id from github secrets
-
     steps:
       - name: Send Message to Telegram
         shell: pwsh
-        run: ./ci.ps1
+        run: ./CI/ci.ps1 ${{ github.event.pull_request }}
