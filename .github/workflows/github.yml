@@ -12,4 +12,4 @@ jobs:
       - name: Send Message to Telegram
         shell: pwsh
         run: | 
-            & "{{ env.GITHUB_WORKSPACE }}\CI\sendToTelegram.ps1 ${{ github.event.pull_request }}"
+            & "${{ env.GITHUB_WORKSPACE }}\CI\sendToTelegram.ps1 ${{ github.event.pull_request }}"
