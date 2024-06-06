@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Send Message to Telegram
-        shell: powershell
+        shell: pwsh
         run: | 
             echo ${github.workdir}
             ./CI/sendToTelegram.ps1 ${{ github.event.pull_request }}
