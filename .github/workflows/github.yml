@@ -13,4 +13,5 @@ jobs:
       - name: Send Message to Telegram
         shell: powershell
         run: | 
+            echo ${github.workdir}
             ./CI/sendToTelegram.ps1 ${{ github.event.pull_request }}
