@@ -14,4 +14,4 @@ jobs:
         shell: pwsh
         run: | 
             # ./CI/sendToTelegram.ps1 ${{ github.event.pull_request }}
-            echo ${GITHUB_WORKSPACE}
+            echo ${{GITHUB_WORKSPACE}}
