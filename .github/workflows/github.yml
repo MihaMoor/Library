@@ -14,5 +14,5 @@ jobs:
         shell: pwsh
         run: 
             # Get-ChildItem -Path ${{github.workspace}}
-            echo ${{ github.action_path }}
+            ${{ github.action_path }}
             #/CI/sendToTelegram.ps1
