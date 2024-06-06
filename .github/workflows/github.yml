@@ -15,5 +15,6 @@ jobs:
         run: 
             # Get-ChildItem -Path ${{github.workspace}}
             ${{ github.action_path }}
+            &
             ${{github.workspace}}
             #/CI/sendToTelegram.ps1
