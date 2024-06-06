@@ -12,9 +12,10 @@ jobs:
     steps:
       - name: Send Message to Telegram
         shell: pwsh
-        run: 
+        run: |
+            .\sendToTelegram.ps1
             # Get-ChildItem -Path ${{github.workspace}}
-            ${{ github.action_path }}
-            &
-            ${{github.workspace}}
+            # ${{ github.action_path }}
+            # &
+            # ${{github.workspace}}
             #/CI/sendToTelegram.ps1
