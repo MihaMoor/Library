@@ -12,9 +12,9 @@ jobs:
     steps:
       - name: Send Message to Telegram
         shell: pwsh
-        run:
+        run: |
             # Переменные для отправки в телегу
-            # $githubAction = "${{github.action}}"
+            $githubAction = "${{github.action}}"
             $githubApiUrl = "${{github.api_url}}"
             $githubEventName = "${{github.event_name}}"
             $botToken = ${{ secrets.PRBOTTOKEN }}
