@@ -14,13 +14,14 @@ jobs:
         shell: pwsh
         run: |
             # Переменные для отправки в телегу
+            ${{ github.event_number }}
             $githubAction = "${{github.action}}"
             $githubApiUrl = "${{github.api_url}}"
             $githubEventName = "${{github.event_name}}"
             $botToken = "${{ secrets.PRBOTTOKEN }}"
             $chatId = "${{ secrets.PRCHATID }}"
             $messageText = @"
-            PullRequest ${{ github.event_number }}. Action ${{ github.event_name }}.
+            PullRequest ${{ github.event_number }} ${{ github.event_name }}.
             User - ${{ github.actor }}
             From branch - ${{ github.ref_name }}
             Url - ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event_number }}
