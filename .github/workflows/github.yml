@@ -14,7 +14,7 @@ jobs:
         shell: pwsh
         run:
             # Переменные для отправки в телегу
-            $githubAction = ${{GITHUB_ACTION}}
+            $githubAction = ${{github.action}}
             $githubApiUrl = ${{GITHUB_API_URL}}
             $githubEventName = ${{GITHUB_EVENT_NAME}}
 
