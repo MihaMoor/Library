@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Send Message to Telegram
         shell: pwsh
-        run: |
+        run:
             # Переменные для отправки в телегу
             $githubAction = ${{GITHUB_ACTION}}
             $githubApiUrl = ${{GITHUB_API_URL}}
@@ -20,6 +20,8 @@ jobs:
 
             $botToken = ${{ secrets.PRBOTTOKEN }}
             $chatId = ${{ secrets.PRCHATID }}
+
             $messageText = "PullRequest No$githubAction from $githubApiUrl. Event - $githubEventName"
+            
             $url="https://api.telegram.org/bot$botToken/sendMessage?chat_id=$chatID&text=$messageText"
             Invoke-RestMethod -Uri $url -Method Post
