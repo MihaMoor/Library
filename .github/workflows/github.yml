@@ -17,8 +17,8 @@ jobs:
             $githubAction = "${{github.action}}"
             $githubApiUrl = "${{github.api_url}}"
             $githubEventName = "${{github.event_name}}"
-            $botToken = ${{ secrets.PRBOTTOKEN }}
-            $chatId = ${{ secrets.PRCHATID }}
+            $botToken = "${{ secrets.PRBOTTOKEN }}"
+            $chatId = "${{ secrets.PRCHATID }}"
             $messageText = "PullRequest from $githubApiUrl. Event - $githubEventName"            
             $url="https://api.telegram.org/bot$botToken/sendMessage?chat_id=$chatID&text=$messageText"
             Invoke-RestMethod -Uri $url -Method Post
