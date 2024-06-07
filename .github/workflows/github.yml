@@ -24,7 +24,7 @@ jobs:
             PullRequest ${{ github.event_number }} ${{ github.event_name }}.
             User - ${{ github.actor }}
             From branch - ${{ github.ref_name }}
-            Url - ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event_number }}
+            Url - ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number }}
             "@
             $url="https://api.telegram.org/bot$botToken/sendMessage?chat_id=$chatID&text=$messageText"
             Invoke-RestMethod -Uri $url -Method Post
