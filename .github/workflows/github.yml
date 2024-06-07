@@ -15,8 +15,8 @@ jobs:
         run:
             # Переменные для отправки в телегу
             $githubAction = ${{github.action}}
-            $githubApiUrl = ${{GITHUB_API_URL}}
-            $githubEventName = ${{GITHUB_EVENT_NAME}}
+            $githubApiUrl = ${{github.api_url}}
+            $githubEventName = ${{github.event_name}}
 
             $botToken = ${{ secrets.PRBOTTOKEN }}
             $chatId = ${{ secrets.PRCHATID }}
