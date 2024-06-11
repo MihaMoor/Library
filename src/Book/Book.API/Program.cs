@@ -1,5 +1,6 @@
 using Book.API.Application.Queries;
 using Book.API.Controllers;
+using Book.API.Extensions;
 using Book.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,7 @@ public class Program
         );
 
         builder.QueryServices();
+        builder.AddKafka();
 
         WebApplication app = builder.Build();
 
@@ -42,8 +44,5 @@ public class Program
         app.Run();
     }
 
-    private static void MapGroups(WebApplication app)
-    {
-        app.MapGroup("/api/book").MapBookQueriesApi();
-    }
+    private static void MapGroups(WebApplication app) => app.MapGroup("/api/book").MapBookQueriesApi();
 }

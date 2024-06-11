@@ -7,9 +7,9 @@ public interface IBookQueries : IQueries
 {
     Task<BookViewModel?> GetBookAsync(Guid id);
 
-    Task<IAsyncEnumerable<BookViewModel>> GetBooksAsync();
+    IAsyncEnumerable<BookViewModel> GetBooksAsync();
 
-    Task<IAsyncEnumerable<BookViewModel>> GetBooksFromAuthorAsync(Guid authorId);
+    IAsyncEnumerable<BookViewModel> GetBooksFromAuthorAsync(Guid authorId);
 
-    Task<IAsyncEnumerable<BookViewModel>> GetBooksFromPublishingHouseAsync(Guid publishingHouseId);
+    IAsyncEnumerable<BookViewModel> GetBooksFromPublishingHouseAsync(Guid publishingHouseId);
 }

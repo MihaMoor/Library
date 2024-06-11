@@ -59,5 +59,14 @@ namespace Book.API.Resources.Localizations {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send {0} with ID=&apos;{1}&apos; to &apos;{2}&apos;..
+        /// </summary>
+        internal static string KafkaMessageProducer_Produce {
+            get {
+                return ResourceManager.GetString("KafkaMessageProducer_Produce", resourceCulture);
+            }
+        }
     }
 }
