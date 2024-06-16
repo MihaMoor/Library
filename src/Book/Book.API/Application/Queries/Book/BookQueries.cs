@@ -1,5 +1,4 @@
-﻿using Book.API.Application.Commands;
-using Book.API.Application.ViewModels;
+﻿using Book.API.Application.ViewModels;
 using Book.API.Extensions;
 using Book.Infrastructure;
 using Confluent.Kafka;
@@ -9,7 +8,7 @@ namespace Book.API.Application.Queries.Book;
 
 public class BookQueries(
     BookContext context,
-    IProducer<string, BookMagazineUpdateModel> producer,
+    KafkaMessageProducer<Null, BookMagazineUpdateModel> producer,
     ILogger<BookQueries> logger)
     : IBookQueries
 {
@@ -18,13 +17,16 @@ public class BookQueries(
 
     public IAsyncEnumerable<BookViewModel> GetBooksAsync()
     {
-        KafkaMessageProducer.UpdateEntity(
-            Guid.NewGuid(),
-            BookMagazineEntityType.PublishingHouse,
-            [],
-            BookMagazineOperation.Create,
-            producer,
-            logger);
+        Message<Null, BookMagazineUpdateModel> message = new()
+        {
+            Value = new(
+                Guid.NewGuid(),
+                BookMagazineEntityType.PublishingHouse,
+                [],
+                BookMagazineOperation.Create)
+        };
+
+        producer.ProduceAsync(TopicNames.BookMagazineUpdateTopic, message);
 
         IAsyncEnumerable<BookViewModel> empty = AsyncEnumerable.Empty<BookViewModel>();
         return empty;

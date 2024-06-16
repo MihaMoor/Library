@@ -1,5 +1,8 @@
 ﻿using Book.API.BackgroundWorkers;
+using Confluent.Kafka;
 using Shared.ServiceDefaults.Kafka;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Book.API.Extensions;
 
@@ -7,17 +10,25 @@ public static class KafkaWebApplicationBuilderExtensions
 {
     public static WebApplicationBuilder AddKafka(this WebApplicationBuilder builder)
         => builder
-            .AddConsumers()
-            .AddWorkers()
-            .AddProducers();
+            .AddConsumer<Null, BookMagazineUpdateModel>((options) =>
+            {
+                options.PropertyNameCaseInsensitive = true;
+                options.Converters.Add(new JsonStringEnumConverter());
+            })
+            .AddProducer<Null, BookMagazineUpdateModel>("KafkaProducer", (options) =>
+            {
+                options.PropertyNameCaseInsensitive = true;
+                options.Converters.Add(new JsonStringEnumConverter());
+            })
+            .AddWorkers();
 
-    private static WebApplicationBuilder AddConsumers(this WebApplicationBuilder builder)
+    private static WebApplicationBuilder AddConsumer<T, K>(this WebApplicationBuilder builder, Action<JsonSerializerOptions> options)
     {
-        builder.Services.AddKafkaConsumer<string, BookMagazineUpdateModel>(
+        builder.Services.AddKafkaConsumer<T, K>(
             builder.Configuration,
             "KafkaConsumer",
-            x => x.SetValueDeserializer(new BookMagazineUpdateModelDeserializer())
-            );
+            x => x.SetValueDeserializer(new KafkaSerializer<K>(options))
+        );
 
         return builder;
     }
@@ -25,17 +36,6 @@ public static class KafkaWebApplicationBuilderExtensions
     private static WebApplicationBuilder AddWorkers(this WebApplicationBuilder builder)
     {
         builder.Services.AddHostedService<BookMagazineUpdateWorker>();
-
-        return builder;
-    }
-
-    private static WebApplicationBuilder AddProducers(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddKafkaProducer<string, BookMagazineUpdateModel>(
-            builder.Configuration,
-            "KafkaProducer",
-            x => x.SetValueSerializer(new BookMagazineUpdateModelSerializer())
-            );
 
         return builder;
     }

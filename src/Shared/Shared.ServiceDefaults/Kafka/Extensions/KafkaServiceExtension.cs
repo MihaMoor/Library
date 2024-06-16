@@ -73,6 +73,8 @@ public static class KafkaServiceExtension
             return producerBuilder.Build();
         });
 
+        services.AddScoped<KafkaMessageProducer<T, K>>();
+
         return services;
     }
 }
