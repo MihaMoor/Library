@@ -1,4 +1,7 @@
-﻿using Book.Infrastructure;
+﻿using Book.API.Application.Queries.Book;
+using Book.API.Application.ViewModels;
+using Book.API.Extensions;
+using Book.Infrastructure;
 
 namespace Book.UnitTests.Application;
 
@@ -6,11 +9,13 @@ public partial class BookAPITest
 {
     [Theory]
     [MemberData(nameof(BookApiTestDataGetExistingBookById))]
-    public void GetExistingBookById(Guid id, BookContext context)
+    public async void GetExistingBookById(Guid id, BookContext context, Domain.AggregatesModel.Book expectedBook)
     {
-        Domain.AggregatesModel.Book? book = context.Books.SingleOrDefault(x => x.Id == id);
+        BookQueries bookQueries = new(context);
+        BookViewModel? book = await bookQueries.GetBookAsync(id);
 
         Assert.NotNull(book);
+        Assert.Equal(book, expectedBook.ToViewModel());
     }
 
     [Theory]

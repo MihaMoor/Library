@@ -18,7 +18,7 @@ public static class BookExtensions
             book.Title,
             book.Description,
             book.Year,
-            new(book.Author.Id, $"{book.Author.Name} {book.Author.Surname}"),
-            new(book.PublishingHouse.Id, book.PublishingHouse.Name)
+            book.Author.Id,
+            book.PublishingHouse.Id
         );
 }

@@ -19,7 +19,7 @@ public class Author : IEquatable<Author>
     /// </summary>
     public IEnumerable<PublishingHouse> HouseList => [.. _publishingHouse];
 
-    public void AddPublishingHouse(PublishingHouse publishingHouse) 
+    public void AddPublishingHouse(PublishingHouse publishingHouse)
         => CollectionOperations.Add(_publishingHouse, publishingHouse);
 
     public override bool Equals(object? obj)
@@ -32,8 +32,9 @@ public class Author : IEquatable<Author>
            Surname == author.Surname &&
            BirthYear == author.BirthYear;
 
+    // TODO: При каждом запросе на одних и тех же данных выдается разный результат!
     public override int GetHashCode()
-        => HashCode.Combine(Id, Name, Surname, BirthYear);
+        => HashCode.Combine(Id, Name, Surname);
 
     // ToDo: подумать как сделать красиво, т.к. точно такой же код есть в PublishingHouse.
     public static bool operator ==(Author? a, Author? b)
