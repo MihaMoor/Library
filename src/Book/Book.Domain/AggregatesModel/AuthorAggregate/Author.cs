@@ -1,4 +1,5 @@
 ﻿using Shared.Core;
+using System.Text.Json;
 
 namespace Book.Domain.AggregatesModel;
 
@@ -23,7 +24,7 @@ public class Author : IEquatable<Author>
         => CollectionOperations.Add(_publishingHouse, publishingHouse);
 
     public override bool Equals(object? obj)
-        => Equals(obj as Author);
+        => Equals(JsonSerializer.Deserialize<Author>(JsonSerializer.Serialize(obj)));
 
     public bool Equals(Author? author)
         => author is not null &&
@@ -32,11 +33,9 @@ public class Author : IEquatable<Author>
            Surname == author.Surname &&
            BirthYear == author.BirthYear;
 
-    // TODO: При каждом запросе на одних и тех же данных выдается разный результат!
     public override int GetHashCode()
-        => HashCode.Combine(Id, Name, Surname);
+        => base.GetHashCode();
 
-    // ToDo: подумать как сделать красиво, т.к. точно такой же код есть в PublishingHouse.
     public static bool operator ==(Author? a, Author? b)
         => (a is null && b is null) ||
            (a is not null && a.Equals(b));
