@@ -33,7 +33,7 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
     public override bool Equals(object? obj)
         => Equals(obj as PublishingHouse);
 
-    public bool Equals(PublishingHouse? other) 
+    public bool Equals(PublishingHouse? other)
         => other is not null &&
            _authors.SequenceEqual(other._authors) &&
            Id.Equals(other.Id) &&
@@ -41,7 +41,7 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
            FoundationYear == other.FoundationYear;
 
     public override int GetHashCode()
-        => HashCode.Combine(_authors, Id, Name, FoundationYear);
+        => base.GetHashCode();
 
     public static bool operator ==(PublishingHouse? a, PublishingHouse? b)
         => (a is null && b is null) ||
@@ -52,7 +52,9 @@ public class PublishingHouse : IEquatable<PublishingHouse?>
 
     public static PublishingHouse operator +(PublishingHouse house, Author author)
     {
-        if (author != null) house.AddAuthor(author);
+        if (author != null)
+            house.AddAuthor(author);
+
         return house;
     }
 }

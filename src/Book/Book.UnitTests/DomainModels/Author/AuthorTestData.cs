@@ -11,14 +11,15 @@ public partial class AuthorTest
 
     public static readonly TheoryData<Author, Author, Func<Author, Author, bool>, bool> EqualAuthorsData = new()
     {
-        // Equals
+        #region Equal
         {
             new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             (a, b) => a.Equals(b),
             true
         },
-        // ==
+        #endregion
+        #region ==
         {
             new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
@@ -37,7 +38,8 @@ public partial class AuthorTest
             (a, b) => a == b,
             true
         },
-        // !=
+        #endregion
+        #region !=
         {
             new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             new() { Id = s_id, Name = "test1", Surname = "test1", BirthYear = s_dateTime },
@@ -56,6 +58,7 @@ public partial class AuthorTest
             (a, b) => a != b,
             false
         },
+        #endregion
     };
 
     public static readonly TheoryData<Author, Author, bool> EqualsAuthorAsObjectData = new()
