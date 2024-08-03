@@ -1,5 +1,4 @@
 ﻿using Shared.Core;
-using System.Text.Json;
 
 namespace Book.Domain.AggregatesModel;
 
@@ -24,7 +23,7 @@ public class Author : IEquatable<Author>
         => CollectionOperations.Add(_publishingHouse, publishingHouse);
 
     public override bool Equals(object? obj)
-        => Equals(JsonSerializer.Deserialize<Author>(JsonSerializer.Serialize(obj)));
+        => Equals(obj as Author);
 
     public bool Equals(Author? author)
         => author is not null &&

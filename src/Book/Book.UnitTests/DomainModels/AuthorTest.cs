@@ -1,5 +1,4 @@
 ﻿using Book.Domain.AggregatesModel;
-using System.Text.Json;
 
 namespace Book.UnitTests.DomainModels;
 
@@ -14,7 +13,7 @@ public partial class AuthorTest
     [MemberData(nameof(EqualsAuthorAsObjectData))]
     public void EqualsAuthorAsObject(Author author1, Author author2, bool result)
     {
-        object obj = JsonSerializer.Deserialize<object>(JsonSerializer.Serialize(author2))!;
+        object obj = author2;
 
         Assert.Equal(author1.Equals(obj), result);
     }

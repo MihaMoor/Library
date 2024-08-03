@@ -11,35 +11,50 @@ public partial class AuthorTest
 
     public static readonly TheoryData<Author, Author, Func<Author, Author, bool>, bool> EqualAuthorsData = new()
     {
+        // Equals
         {
-            new() { Id = s_id, Name = "test1", Surname = "test", BirthYear = s_dateTime },
-            new() { Id = s_id, Name = "test1", Surname = "test", BirthYear = s_dateTime },
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             (a, b) => a.Equals(b),
             true
         },
+        // ==
         {
-            new() { Id = s_id, Name = "test2", Surname = "test", BirthYear = s_dateTime },
-            new() { Id = s_id, Name = "test2", Surname = "test", BirthYear = s_dateTime },
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             (a, b) => a == b,
             true
         },
         {
-            new() { Id = s_id, Name = "test3", Surname = "test", BirthYear = s_dateTime },
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+            null!,
+            (a, b) => a == b,
+            false
+        },
+        {
+            null!,
+            null!,
+            (a, b) => a == b,
+            true
+        },
+        // !=
+        {
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
             new() { Id = s_id, Name = "test1", Surname = "test1", BirthYear = s_dateTime },
+            (a, b) => a != b,
+            true
+        },
+        {
+            new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+            null!,
             (a, b) => a != b,
             true
         },
         {
             null!,
             null!,
-            (a,b) => a == b,
-            true
-        },
-        {
-            new() { Id = s_id, Name = "test5", Surname = "test", BirthYear = s_dateTime },
-            new() { Id = s_id, Name = "test5", Surname = "test", BirthYear = s_dateTime },
-            (a, b) => a.Equals(b),
-            true
+            (a, b) => a != b,
+            false
         },
     };
 
