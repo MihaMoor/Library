@@ -1,4 +1,5 @@
 ﻿using Book.Domain.AggregatesModel;
+using System.Collections;
 
 namespace Book.UnitTests.DomainModels;
 
@@ -315,4 +316,116 @@ public partial class PublishingHouseTest
         },
         #endregion
     };
+
+    public static readonly TheoryData<PublishingHouse, PublishingHouse, bool> EqualsHouseAsObjectData = new()
+    {
+        {
+            //House1
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //House2
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            true
+        },
+        {
+            //House1
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //House2
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = DateTime.Now },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //Expected result
+            false
+        },
+        {
+            //House1
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //House2
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test1", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //Expected result
+            false
+        },
+        {
+            //House1
+            new([
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                new() { Id = s_id, Name = "test", Surname = "test", BirthYear = s_dateTime },
+                ])
+            {
+                Id = s_id,
+                Name = "test",
+                FoundationYear = s_dateTime
+            },
+            //House2
+            null!,
+            //Expected result
+            false
+        },
+    };
+}
+
+public class HouseGetHashCode : IEnumerable<object[]>
+{
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            yield return new object[]
+            {
+                new PublishingHouse()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = $"test{i}",
+                    FoundationYear = DateTime.Now
+                }
+            };
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

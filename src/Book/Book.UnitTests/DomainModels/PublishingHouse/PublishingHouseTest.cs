@@ -27,4 +27,18 @@ public partial class PublishingHouseTest
 
         Assert.Equal(house.Authors.Count(), expectedResult);
     }
+
+    [Theory]
+    [MemberData(nameof(EqualsHouseAsObjectData))]
+    public void EqualsHouseAsObject(PublishingHouse house, PublishingHouse house1, bool expectedResult)
+    {
+        object h = house1;
+
+        Assert.Equal(house.Equals(h), expectedResult);
+    }
+
+    [Theory]
+    [ClassData(typeof(HouseGetHashCode))]
+    public void GetAuthorHashCode(PublishingHouse house)
+    => Assert.Equal(house.GetHashCode(), house.GetHashCode());
 }
