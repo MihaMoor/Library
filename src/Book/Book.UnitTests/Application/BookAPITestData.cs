@@ -2,21 +2,22 @@
 
 namespace Book.UnitTests.Application;
 
-public partial class BookAPITest
+public partial class BookApiTest
 {
-    public static TheoryData<Guid, BookContext> BookAPITestDataGetFaildBookById => new()
-    {
-        { Guid.NewGuid(), new InMemoryBookDB().context },
-        { Guid.NewGuid(), new InMemoryBookDB().context },
-        { Guid.NewGuid(), new InMemoryBookDB().context },
-        { Guid.NewGuid(), new InMemoryBookDB().context }
-    };
+    public static TheoryData<Guid, BookContext> BookAPITestDataGetFaildBookById
+        => new()
+        {
+            { Guid.NewGuid(), new InMemoryBookDB().Context },
+            { Guid.NewGuid(), new InMemoryBookDB().Context },
+            { Guid.NewGuid(), new InMemoryBookDB().Context },
+            { Guid.NewGuid(), new InMemoryBookDB().Context }
+        };
 
     public static TheoryData<Guid, BookContext, Domain.AggregatesModel.Book> BookApiTestDataGetExistingBookById => new()
     {
         {
             Guid.Parse("46A9B344-72D1-44CC-BA07-6B79F5E95567"),
-            new InMemoryBookDB().context,
+            new InMemoryBookDB().Context,
             new Domain.AggregatesModel.Book()
             {
                 Id = Guid.Parse("46A9B344-72D1-44CC-BA07-6B79F5E95567"),
@@ -37,10 +38,5 @@ public partial class BookAPITest
                 }
             }
         },
-        {
-            Guid.NewGuid(),
-            new InMemoryBookDB().context,
-            null!
-        }
     };
 }

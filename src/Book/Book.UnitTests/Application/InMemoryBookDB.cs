@@ -6,7 +6,7 @@ namespace Book.UnitTests.Application;
 
 public class InMemoryBookDB
 {
-    public readonly BookContext context;
+    public BookContext Context { get; private set; }
 
     public InMemoryBookDB()
     {
@@ -14,9 +14,9 @@ public class InMemoryBookDB
         builder.UseInMemoryDatabase(databaseName: "Book");
 
         DbContextOptions<BookContext> dbContextOptions = builder.Options;
-        context = new BookContext(dbContextOptions);
-        context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
+        Context = new BookContext(builder.Options);
+        Context.Database.EnsureDeleted();
+        Context.Database.EnsureCreated();
 
         SeedData();
     }
@@ -47,8 +47,8 @@ public class InMemoryBookDB
             PublishingHouse = house
         };
 
-        context.Books.Add(book);
-        context.Authors.Add(author);
-        context.SaveChanges();
+        Context.Books.Add(book);
+        Context.Authors.Add(author);
+        Context.SaveChanges();
     }
 }

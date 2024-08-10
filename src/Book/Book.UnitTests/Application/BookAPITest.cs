@@ -5,7 +5,7 @@ using Book.Infrastructure;
 
 namespace Book.UnitTests.Application;
 
-public partial class BookAPITest
+public partial class BookApiTest
 {
     [Theory]
     [MemberData(nameof(BookApiTestDataGetExistingBookById))]
