@@ -9,9 +9,17 @@ public class BookQueries(BookContext context) : IBookQueries
     public async Task<BookViewModel?> GetBookAsync(Guid id)
         => (await context.Books.FindAsync(id))?.ToViewModel();
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetBooksAsync() => throw new NotImplementedException();
+    public async IAsyncEnumerable<BookViewModel> GetBooksAsync()
+    {
+        await foreach (Domain.AggregatesModel.Book book in context.Books)
+        {
+            yield return book.ToViewModel();
+        }
+    }
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetBooksFromAuthorAsync(Guid authorId) => throw new NotImplementedException();
+    IAsyncEnumerable<BookViewModel> IBookQueries.GetBooksFromAuthorAsync(Guid authorId)
+        => throw new NotImplementedException();
 
-    public Task<IAsyncEnumerable<BookViewModel>> GetBooksFromPublishingHouseAsync(Guid publishingHouseId) => throw new NotImplementedException();
+    IAsyncEnumerable<BookViewModel> IBookQueries.GetBooksFromPublishingHouseAsync(Guid publishingHouseId)
+        => throw new NotImplementedException();
 }
